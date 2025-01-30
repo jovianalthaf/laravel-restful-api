@@ -11,7 +11,13 @@ class Contact extends Model
     protected $keyType = "int";
     public $timestamps = true;
     public $incrementing = true;
-
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'email',
+        'phone',
+        'user_id'
+    ];
     public function user()
     {
         return $this->belongsTo(User::class, "user_id", "id");

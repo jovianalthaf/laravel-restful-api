@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Database\Seeders\UserSeeder;
+use GuzzleHttp\Psr7\Header;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -11,6 +12,7 @@ use Tests\TestCase;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertNotEquals;
 use function PHPUnit\Framework\assertNotNull;
+use function PHPUnit\Framework\assertNull;
 
 class UserTest extends TestCase
 {
@@ -220,4 +222,35 @@ class UserTest extends TestCase
             ]
         ]);
     }
+
+    public function testLogoutSuccess()
+    {
+        // $this->testLoginSuccess();
+        $this->seed([UserSeeder::class]);
+
+        $this->delete(uri: '/api/users/logout', headers: [
+            'Authorization' => 'test'
+        ])->assertStatus(200)->assertJson([
+            'data' => true
+        ]);
+
+        $user = User::where('username', 'test')->first();
+        assertNull($user->token);
+    }
+    public function testLogoutFailed()
+    {
+        $this->seed([UserSeeder::class]);
+
+        $this->delete(uri: '/api/users/logout', headers: [
+            'Authorization' => 'salah'
+        ])->assertStatus(401)->assertJson([
+            'errors' => [
+                "message" => [
+                    "Unauthorized"
+                ]
+            ]
+        ]);
+    }
+
+    
 }
