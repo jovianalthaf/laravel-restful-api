@@ -17,6 +17,7 @@ class Address extends Model
         'province',
         'country',
         'postal_code',
+        'contact_id'
 
     ];
     public function contact()

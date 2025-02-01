@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 
-class AddressRequest extends FormRequest
+class AddressUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,6 +32,7 @@ class AddressRequest extends FormRequest
             'postal_code' => ['nullable', 'max:10'],
         ];
     }
+
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response([
