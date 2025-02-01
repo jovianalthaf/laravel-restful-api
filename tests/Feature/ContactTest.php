@@ -105,7 +105,7 @@ class ContactTest extends TestCase
         ])->assertStatus(404)->assertJson([
             'errors' => [
                 'message' => [
-                    'User Not Found'
+                    'Contact Not Found'
                 ]
             ]
         ]);

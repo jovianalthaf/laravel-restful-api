@@ -34,12 +34,13 @@ class ContactController extends Controller
     {
         $user = Auth::user();
         // find contact by user id
-        $contact = Contact::where('id', $id)->where('user_id', $user->id)->first();
+        $contact = $user->contacts->find($id);
+        // $contact = Contact::where('id', $id)->where('user_id', $user->id)->first();
         if (!$contact) {
             throw new HttpResponseException(response()->json([
                 'errors' => [
                     "message" => [
-                        "User Not Found"
+                        "Contact Not Found"
                     ]
                 ]
             ])->setStatusCode(404));
